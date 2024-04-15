@@ -21,8 +21,8 @@ Tema: Desenvolvimento de um software com framework web que utilize noções de b
 ### Ambiente de desenvolvimento
 
 Faça o clone deste repositório via https ou ssh. Abra o terminal em qualquer pasta que queira manter o projeto e digite: 
-- ```https://github.com/projeto-pi-2024/controle-de-estoque.git``` para clone via https
-- ```git@github.com:projeto-pi-2024/controle-de-estoque.git``` para clone via ssh
+- ```git clone https://github.com/projeto-pi-2024/controle-de-estoque.git``` para clone via https
+- ```git clone git@github.com:projeto-pi-2024/controle-de-estoque.git``` para clone via ssh
 
 Com o projeto em sua máquina, crie um ambiente virtual na raiz
 ```
