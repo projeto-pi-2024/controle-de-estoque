@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Controle de Estoque</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -24,7 +25,7 @@
                             Produtos
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Estoque</a>
+                            <a class="dropdown-item" href="estoque.html">Estoque</a>
                             <a class="dropdown-item" href="#">Categorias</a>
                             <a class="dropdown-item" href="#">Fornecedores</a>
                         </div>
@@ -35,7 +36,9 @@
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar produto" aria-label="Pesquisar">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" title="Pesquisar">
+                        <i class="fa fa-search"></i>
+                    </button>
                 </form>
             </div>
         </nav>
@@ -45,7 +48,7 @@
         <div class="container-md">
             <div class="row">
                 <div class="col">
-                    <div class="d-flex justify-content-around flex-wrap home-cards mt-4">
+                    <div class="d-flex flex-wrap home-cards">
                         <div class="card card-info">
                             <div class="card-title">
                                 Totais
@@ -77,7 +80,8 @@
     </main>
 
     <footer>
-
+        <h5 class="text-center m-4">Controle de Estoques</h5>
+        <p class="text-center">Grupo UNIVESP - 2024</p>
     </footer>
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>

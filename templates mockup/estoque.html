@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Estoque</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">(Controle de Estoque)</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Produtos
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="estoque.html">Estoque</a>
+                            <a class="dropdown-item" href="#">Categorias</a>
+                            <a class="dropdown-item" href="#">Fornecedores</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sobre</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar produto" aria-label="Pesquisar">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" title="Pesquisar">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="container-md">
+            <div class="row">
+                <div class="col">
+                    <h3 class="title text-center">Produtos</h3>
+                    <h6 class="subtitle">Pesquisado por: </h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">codigo</th>
+                                    <th scope="col">descrição</th>
+                                    <th scope="col">codigo de barras</th>
+                                    <th scope="col">custo</th>
+                                    <th scope="col">preco de venda</th>
+                                    <th scope="col">situação</th>
+                                    <th scope="col">categoria</th>
+                                    <th scope="col">unidades</th>
+                                    <th scope="col">saldo</th>
+                                    <th scope="col">Ação</th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <th scope="row">4123</th>
+                                <td>Brinco Dourado 22</td>
+                                <td>11235468785</td>
+                                <td>6,30</td>
+                                <td>12,99</td>
+                                <td>Ativo</td>
+                                <td>Brincos</td>
+                                <td>40</td>
+                                <td>22</td>
+                                <td class="p-2">
+                                    <button type="button" class="btn btn-success btn-sm" title="Editar">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">6422</th>
+                                <td>Colar Pingente Coração</td>
+                                <td>99668464564</td>
+                                <td>8,12</td>
+                                <td>15,00</td>
+                                <td>Inativo</td>
+                                <td>Colares</td>
+                                <td>23</td>
+                                <td>6</td>
+                                <td class="p-2">
+                                    <button type="button" class="btn btn-success btn-sm" title="Editar">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+    </main>
+
+    <footer>
+        <h5 class="text-center m-4">Controle de Estoques</h5>
+        <p class="text-center">Grupo UNIVESP - 2024</p>
+    </footer>
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</html>
