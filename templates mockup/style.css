@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.home-cards {
+    min-height: 80vh;
+    background-color: rgb(222, 255, 233);
+}
+
+.card-info {
+    min-width: 300px;
+    border-radius: 10px;
+    height: 300px;
+    display: inline-block;
+    margin: 10px;
+}
+
+.card-title {
+    margin: 8px 20px;
+    font-weight: 600;
+    font-size: large;
+}
