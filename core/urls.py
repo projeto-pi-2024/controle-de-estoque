@@ -17,6 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from estoque.views import *
+
 urlpatterns = [
+    path('', home, name='home'),
+    path('estoque', estoque, name='estoque'),
+    path('produto', produto, name='produto'),
     path('admin/', admin.site.urls),
 ]

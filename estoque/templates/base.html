@@ -1,20 +1,21 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controle de Estoque</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Controle de Estoque {% block title %}{% endblock %}</title>
 </head>
 
 <body>
 
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">(Controle de Estoque)</a>
+            <a class="navbar-brand" href="{% url 'home' %}">(Controle de Estoque)</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -25,8 +26,8 @@
                             Produtos
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="estoque.html">Estoque</a>
-                            <a class="dropdown-item" href="produtos.html">Categorias</a>
+                            <a class="dropdown-item" href="{% url 'estoque' %}">Estoque</a>
+                            <a class="dropdown-item" href="#">Categorias</a>
                             <a class="dropdown-item" href="#">Fornecedores</a>
                         </div>
                     </li>
@@ -45,38 +46,8 @@
     </header>
 
     <main>
-        <div class="container-md">
-            <div class="row">
-                <div class="col">
-                    <div class="d-flex flex-wrap home-cards">
-                        <div class="card card-info">
-                            <div class="card-title">
-                                Totais
-                            </div>
-                            <div class="card-body">
-                                Conteúdo do Card
-                            </div>
-                        </div>
-                        <div class="card card-info">
-                            <div class="card-title">
-                                Menores Estoques
-                            </div>
-                            <div class="card-body">
-                                Conteúdo do Card
-                            </div>
-                        </div>
-                        <div class="card card-info">
-                            <div class="card-title">
-                                Últimas Movimentações
-                            </div>
-                            <div class="card-body">
-                                Conteúdo do Card
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% block content %}
+        {% endblock %}
     </main>
 
     <footer>
