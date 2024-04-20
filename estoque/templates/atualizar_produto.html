@@ -1,0 +1,85 @@
+{% extends 'base.html' %} 
+
+{% block title %}- Produto {% endblock %} 
+
+{% block content %}
+<div class="container-md">
+    <div class="row">
+        <div class="col">
+            <h3 class="title text-center">Atualizar de Produto</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+
+                  <form id="produtoForm" method="POST">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        {% comment %} <div class="form-group col-md-2">
+                            <label for="codigo">Código:</label>
+                            <input type="text" class="form-control" id="codigo" name="codigo" value="{{ form.instance.codigo }}" required>
+                        </div> {% endcomment %}
+                        <div class="form-group col-md-6">
+                          <label for="descricao">Nome:</label>
+                          <input type="text" class="form-control" id="nome" name="nome" value="{{ form.instance.nome }}" required>
+                      </div>
+                        <div class="form-group col-md-6">
+                            <label for="descricao">Descrição:</label>
+                            <input type="text" class="form-control" id="descricao" name="descricao" value="{{ form.instance.descricao }}">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="codigo_barras">Código de Barras:</label>
+                            <input type="text" class="form-control" id="codigo_barras" name="codigo_barras" value="{{ form.instance.codigo_barras }}" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-2">
+                            <label for="custo">Custo:</label>
+                            <input type="text" class="form-control" id="custo" name="custo" value="{{ form.instance.custo }}" required>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="preco_venda">Preço de Venda:</label>
+                            <input type="text" class="form-control" id="preco_venda" name="preco_venda" value="{{ form.instance.preco_venda }}" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="categoria">Categoria:</label>
+                            <select class="form-select form-control" id="categoria" name="categoria" required>
+                                <option value="{{ form.instance.categoria.id }}" selected>{{ form.instance.categoria.nome }}</option>
+                                {% for categoria in categorias %}
+                                    <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="situacao">Situação:</label>
+                            <select class="form-select form-control" id="situacao" name="situacao" required>
+                                <option value="Ativo" {% if form.instance.situacao == 'Ativo' %} selected {% endif %}>Ativo</option>
+                                <option value="Inativo" {% if form.instance.situacao == 'Inativo' %} selected {% endif %}>Inativo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="quantidade_inicial">Quantidade Inicial:</label>
+                            <input type="number" class="form-control" id="quantidade_inicial" name="quantidade_inicial" value="{{ form.instance.quantidade_inicial }}" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <button type="submit" class="btn btn-primary float-right">
+                                <i class="fa fa-check mr-1"></i>
+                                Salvar Alterações
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

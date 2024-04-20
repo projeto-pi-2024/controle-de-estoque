@@ -6,7 +6,7 @@
 <div class="container-md">
     <div class="row">
         <div class="col">
-            <h3 class="title text-center">Edição de Produto</h3>
+            <h3 class="title text-center">Criar de Produto</h3>
         </div>
     </div>
     <div class="row">
@@ -14,19 +14,24 @@
             <div class="card">
                 <div class="card-body">
 
-                    <form id="produtoForm">
+                    <form id="produtoForm" method="POST" action="{% url 'criar_produto' %}">
+                        {% csrf_token %}
                         <div class="form-row">
-                            <div class="form-group col-md-2">
+                            {% comment %} <div class="form-group col-md-2">
                                 <label for="codigo">Código:</label>
                                 <input type="text" class="form-control" id="codigo" name="codigo" required>
+                            </div> {% endcomment %}
+                            <div class="form-group col-md-6">
+                                <label for="descricao">Nome:</label>
+                                <input type="text" class="form-control" id="nome" name="nome" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="descricao">Descrição:</label>
-                                <input type="text" class="form-control" id="descricao" name="descricao" required>
+                                <input type="text" class="form-control" id="descricao" name="descricao">
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="codigoBarras">Código de Barras:</label>
-                                <input type="text" class="form-control" id="codigoBarras" name="codigoBarras" required>
+                                <label for="codigo_barras">Código de Barras:</label>
+                                <input type="text" class="form-control" id="codigo_barras" name="codigo_barras" required>
                             </div>
                         </div>
                         <div class="form-row">
@@ -35,13 +40,19 @@
                                 <input type="text" class="form-control" id="custo" name="custo" required>
                             </div>
                             <div class="form-group col-md-2">
-                                <label for="precoVenda">Preço de Venda:</label>
-                                <input type="text" class="form-control" id="precoVenda" name="precoVenda" required>
+                                <label for="preco_venda">Preço de Venda:</label>
+                                <input type="text" class="form-control" id="preco_venda" name="preco_venda" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="categoria">Categoria:</label>
-                                <input type="text" class="form-control" id="categoria" name="categoria" required>
+                                <select class="form-select form-control" id="categoria" name="categoria" required>
+                                    <option value="" selected disabled>Selecione uma categoria</option>
+                                    {% for categoria in categorias %}
+                                        <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
+                            
                             <div class="form-group col-md-2">
                                 <label for="situacao">Situação:</label>
                                 <select class="form-select form-control" id="situacao" name="situacao" required>
@@ -52,12 +63,8 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
-                                <label for="unidades">Unidades:</label>
-                                <input type="number" class="form-control" id="unidades" name="unidades" required>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="saldo">Saldo:</label>
-                                <input type="number" class="form-control" id="saldo" name="saldo" required>
+                                <label for="quantidade_inicial">Quantidade Inicial:</label>
+                                <input type="number" class="form-control" id="quantidade_inicial" name="quantidade_inicial" required>
                             </div>
                         </div>
                         <div class="form-row">
@@ -69,6 +76,7 @@
                             </div>
                         </div>
                     </form>
+                    
                 </div>
             </div>
         </div>
