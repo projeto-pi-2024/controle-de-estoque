@@ -10,7 +10,7 @@ def home(request):
 
 
 def estoque(request):
-    produtos = Produto.objects.order_by('-nome')
+    produtos = Produto.objects.order_by('id')
 
     context = {'produtos': produtos, }
 
