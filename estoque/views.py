@@ -63,11 +63,18 @@ def criar_produto(request):
     categorias = Categoria.objects.all()
 
     if request.method == 'POST':
+        request.POST = request.POST.copy()
+        request.POST['preco_venda'] = request.POST['preco_venda'].replace('.', '').replace(
+            ',', '.')
+        request.POST['custo'] = request.POST['custo'].replace(
+            '.', '').replace(',', '.')
+
         form = ProdutoForm(request.POST)
 
         if form.is_valid():
-            produto = form.save()
-            print(request.POST)
+            produto = form.save(commit=False)
+            produto.save()
+
             Estoque.objects.create(
                 produto=produto,
                 movimentacao='Entrada',
