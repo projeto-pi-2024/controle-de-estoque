@@ -21,10 +21,11 @@ class Produto(models.Model):
     custo = models.DecimalField(max_digits=10, decimal_places=2)
     codigo_barras = models.CharField(max_length=100)
     preco_venda = models.DecimalField(max_digits=10, decimal_places=2)
-    quantidade_inicial = models.IntegerField()
+    quantidade_inicial = models.IntegerField(blank=True, default=0)
+    quantidade_estoque = models.IntegerField(default=0)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     situacao = models.CharField(
-        max_length=10, choices=SITUACAO_CHOICES, default='Ativo')
+        max_length=10, choices=SITUACAO_CHOICES)
     criado_em = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
@@ -32,8 +33,15 @@ class Produto(models.Model):
 
 
 class Estoque(models.Model):
+    MOVIMENTACAO_CHOICES = (
+        ('Entrada', 'Entrada'),
+        ('Saida', 'Saida'),
+    )
+
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
-    quantidade_estoque = models.IntegerField()
+    movimentacao = models.CharField(
+        max_length=10, choices=MOVIMENTACAO_CHOICES)
+    quantidade = models.IntegerField()
     criado_em = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

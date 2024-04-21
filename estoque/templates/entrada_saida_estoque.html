@@ -1,0 +1,72 @@
+{% extends 'base.html' %} 
+
+{% block title %}- Categorias {% endblock %} 
+
+{% block content %}
+<div class="container-md">
+    <div class="row">
+        <div class="col">
+            <h3 class="title text-center">Movimentação de Estoque</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <form id="estoqueForm" method="POST">
+                        {% csrf_token %}
+
+                        <div class="form-row">
+                            <div class="form-group col-12">
+                                <label for="descricao">Nome:</label>
+                                <input type="text" class="form-control" id="nome" name="nome" value="{{ produto.nome }}" disabled>
+                            </div>
+                        </div> 
+                        
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                              <label for="quantidade">Quantidade:</label>
+                              <input type="number" class="form-control" id="quantidade" name="quantidade" required>
+                          </div>
+                          <div class="form-group col-md-4">
+                              <label for="quantidade_estoque">Estoque atual:</label>
+                              <input type="text" class="form-control" id="quantidade_estoque" name="quantidade_estoque" value="{{ produto.quantidade_estoque}}" disabled>
+                          </div>
+                        </div>
+
+                        <div class="form-row">
+                          <div class="form-group col-md-2">
+                            <label for="movimentacao">Tipo movimentação:</label>
+                            <select class="form-select form-control" id="movimentacao" name="movimentacao" required>
+                              <option value="Entrada">Entrada</option>
+                              <option value="Saida">Saída</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <strong>{{ field.label }}:</strong> {{ error|escape }}<br>
+                                    {% endfor %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        
+                        <div class="form-row mt-4">
+                            <div class="form-group col-md-12">
+                                <button type="submit" class="btn btn-primary float-right">
+                                    <i class="fa fa-check mr-1"></i>
+                                    Atualizar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

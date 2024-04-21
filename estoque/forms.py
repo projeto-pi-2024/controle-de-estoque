@@ -13,3 +13,13 @@ class CategoriaForm(forms.ModelForm):
     class Meta:
         model = Categoria
         fields = ['nome']
+
+
+class EstoqueForm(forms.ModelForm):
+    class Meta:
+        model = Estoque
+        fields = ['movimentacao', 'quantidade']
+        labels = {
+            'movimentacao': 'Movimentação',
+            'quantidade': 'Quantidade',
+        }

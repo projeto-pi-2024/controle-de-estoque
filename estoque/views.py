@@ -1,9 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Estoque, Categoria, Produto
-from django.db.models import Count
-from django.contrib.auth.decorators import login_required
 from .forms import *
-from django.urls import reverse
 
 
 def home(request):
@@ -13,10 +10,6 @@ def home(request):
 def estoque(request):
     produtos = Produto.objects.order_by('-nome')
 
-    for produto in produtos:
-        estoque_produto = Estoque.objects.filter(produto=produto).first()
-        produto.quantidade_em_estoque = estoque_produto.quantidade_estoque if estoque_produto else 0
-
     context = {'produtos': produtos, }
 
     return render(request, 'estoque.html', context)
@@ -25,8 +18,8 @@ def estoque(request):
 def categorias(request):
     categorias = Categoria.objects.order_by('id')
 
-    context = {'categorias': categorias }
-    
+    context = {'categorias': categorias}
+
     return render(request, 'categorias.html', context)
 
 
@@ -34,12 +27,13 @@ def criar_categoria(request):
     if request.method == 'POST':
         form = CategoriaForm(request.POST)
         if form.is_valid():
-            categoria = form.save()
+            form.save()
             return redirect('categorias')
     else:
         form = CategoriaForm()
 
     return render(request, 'criar_categoria.html', {'form': form})
+
 
 def atualizar_categoria(request, categoria_id):
     categoria = get_object_or_404(Categoria, id=categoria_id)
@@ -48,8 +42,9 @@ def atualizar_categoria(request, categoria_id):
         form = CategoriaForm(request.POST, instance=categoria)
         if form.is_valid():
             form.save()
+        return redirect('categorias')
     else:
-        form = CategoriaForm(instance = categoria)
+        form = CategoriaForm(instance=categoria)
 
     context = {'form': form, 'categoria': categoria}
     return render(request, 'atualizar_categoria.html', context)
@@ -64,15 +59,25 @@ def criar_produto(request):
 
     if request.method == 'POST':
         form = ProdutoForm(request.POST)
+
         if form.is_valid():
             produto = form.save()
+            print(request.POST)
             Estoque.objects.create(
-                produto=produto, quantidade_estoque=produto.quantidade_inicial)
+                produto=produto,
+                movimentacao='Entrada',
+                quantidade=produto.quantidade_inicial
+            )
+
+            produto.quantidade_estoque = produto.quantidade_inicial
+            produto.save()
+
             return redirect('estoque')
     else:
         form = ProdutoForm()
 
     context = {'form': form, 'categorias': categorias}
+
     return render(request, 'criar_produto.html', context)
 
 
@@ -86,8 +91,9 @@ def atualizar_produto(request, produto_id):
         request.POST['preco_venda'] = request.POST['preco_venda'].replace(
             ',', '.')
         request.POST['custo'] = request.POST['custo'].replace(',', '.')
-        
+
         form = ProdutoForm(request.POST, instance=produto)
+
         if form.is_valid():
             form.save()
             return redirect('estoque')
@@ -95,4 +101,43 @@ def atualizar_produto(request, produto_id):
         form = ProdutoForm(instance=produto)
 
     context = {'form': form, 'categorias': categorias}
+
     return render(request, 'atualizar_produto.html', context)
+
+
+def entrada_saida_estoque(request, produto_id):
+    produto = Produto.objects.get(pk=produto_id)
+
+    if request.method == 'POST':
+        form = EstoqueForm(request.POST)
+        if form.is_valid():
+            movimentacao = form.cleaned_data['movimentacao']
+            quantidade = form.cleaned_data['quantidade']
+
+            if movimentacao == 'Entrada':
+                produto.quantidade_estoque += quantidade
+            elif movimentacao == 'Saida':
+                if quantidade > produto.quantidade_estoque:
+                    form.add_error(
+                        'quantidade', 'A quantidade de saída não pode ser maior que o estoque total')
+
+                    context = {'form': form, 'produto': produto}
+                    return render(request, 'entrada_saida_estoque.html', context)
+
+                produto.quantidade_estoque -= quantidade
+
+            produto.save()
+
+            Estoque.objects.create(
+                produto=produto,
+                movimentacao=movimentacao,
+                quantidade=quantidade
+            )
+
+            return redirect('estoque')
+    else:
+        form = EstoqueForm()
+
+    context = {'form': form, 'produto': produto}
+
+    return render(request, 'entrada_saida_estoque.html', context)

@@ -13,7 +13,7 @@ class CategoriaAdmin(admin.ModelAdmin):
 @admin.register(Produto)
 class ProdutoAdmin(admin.ModelAdmin):
     list_display = ('id', 'codigo_barras', 'nome', 'descricao', 'custo', 'preco_venda',
-                    'quantidade_inicial', 'categoria', 'situacao', 'criado_em',)
+                    'quantidade_inicial', 'quantidade_estoque', 'categoria', 'situacao', 'criado_em',)
     list_filter = ('criado_em',)
     ordering = ('-id',)
     search_fields = ('id', 'nome',)
@@ -23,7 +23,7 @@ class ProdutoAdmin(admin.ModelAdmin):
 
 @admin.register(Estoque)
 class EstoqueAdmin(admin.ModelAdmin):
-    list_display = ('id', 'produto', 'quantidade_estoque', 'criado_em')
+    list_display = ('id', 'produto', 'movimentacao', 'quantidade', 'criado_em')
     list_filter = ('criado_em',)
     ordering = ('-id',)
     search_fields = ('id', 'produto',)
