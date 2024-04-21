@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Estoque, Categoria, Produto
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
-from .forms import ProdutoForm
+from .forms import *
 from django.urls import reverse
 
 
@@ -23,11 +23,36 @@ def estoque(request):
 
 
 def categorias(request):
-    categorias = Categoria.objects.annotate(num_produtos=Count('produto'))
+    categorias = Categoria.objects.order_by('id')
 
-    context = {'categorias': categorias}
-
+    context = {'categorias': categorias }
+    
     return render(request, 'categorias.html', context)
+
+
+def criar_categoria(request):
+    if request.method == 'POST':
+        form = CategoriaForm(request.POST)
+        if form.is_valid():
+            categoria = form.save()
+            return redirect('categorias')
+    else:
+        form = CategoriaForm()
+
+    return render(request, 'criar_categoria.html', {'form': form})
+
+def atualizar_categoria(request, categoria_id):
+    categoria = get_object_or_404(Categoria, id=categoria_id)
+
+    if request.method == 'POST':
+        form = CategoriaForm(request.POST, instance=categoria)
+        if form.is_valid():
+            form.save()
+    else:
+        form = CategoriaForm(instance = categoria)
+
+    context = {'form': form, 'categoria': categoria}
+    return render(request, 'atualizar_categoria.html', context)
 
 
 def produto(request):

@@ -1,0 +1,42 @@
+{% extends 'base.html' %} 
+
+{% block title %}- Categorias {% endblock %} 
+
+{% block content %}
+<div class="container-md">
+    <div class="row">
+        <div class="col">
+            <h3 class="title text-center">Criar Categoria</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+
+                    <form id="categoriaForm" method="POST" action="{% url 'criar_categoria' %}">
+                        {% csrf_token %}
+
+                        <div class="form-row">
+                            <div class="form-group col-12">
+                                <label for="descricao">Nome:</label>
+                                <input type="text" class="form-control" id="nome" name="nome" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row mt-4">
+                            <div class="form-group col-md-12">
+                                <button type="submit" class="btn btn-primary float-right">
+                                    <i class="fa fa-check mr-1"></i>
+                                    Cadastrar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
