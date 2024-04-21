@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Estoque, Categoria, Produto
 from .forms import *
+from django.db.models import Count, Sum
+from django.db.models.functions import Coalesce
 
 
 def home(request):
@@ -16,7 +18,10 @@ def estoque(request):
 
 
 def categorias(request):
-    categorias = Categoria.objects.order_by('id')
+    categorias = Categoria.objects.annotate(
+        quantidade_produtos=Count('produto'),
+        quantidade_estoque=Coalesce(Sum('produto__quantidade_estoque'), 0)
+    ).order_by('id')
 
     context = {'categorias': categorias}
 
