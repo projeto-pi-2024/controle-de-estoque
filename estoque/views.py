@@ -3,6 +3,7 @@ from .models import Estoque, Categoria, Produto
 from .forms import *
 from django.db.models import Count, Sum
 from django.db.models.functions import Coalesce
+from django.core.paginator import Paginator
 
 
 def home(request):
@@ -11,8 +12,12 @@ def home(request):
 
 def estoque(request):
     produtos = Produto.objects.order_by('id')
+    
+    paginacao = Paginator(produtos, 10)
+    pagina = request.GET.get('page')
+    page_obj = paginacao.get_page(pagina)
 
-    context = {'produtos': produtos, }
+    context = {'page_obj': page_obj, }
 
     return render(request, 'estoque.html', context)
 
@@ -22,8 +27,12 @@ def categorias(request):
         quantidade_produtos=Count('produto'),
         quantidade_estoque=Coalesce(Sum('produto__quantidade_estoque'), 0)
     ).order_by('id')
+    
+    paginacao = Paginator(categorias, 10)
+    pagina = request.GET.get('page')
+    page_obj = paginacao.get_page(pagina)
 
-    context = {'categorias': categorias}
+    context = {'page_obj': page_obj}
 
     return render(request, 'categorias.html', context)
 

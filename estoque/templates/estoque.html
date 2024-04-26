@@ -12,7 +12,7 @@
     </div>
     <div class="row">
         <div class="col">
-            {% if produtos %}
+            {% if page_obj %}
             <div class="table-responsive">
                 <table class="table table-striped table-hover">
                     <thead>
@@ -30,7 +30,7 @@
                         </tr>
                     </thead>
 
-                    {% for produto in produtos %}
+                    {% for produto in page_obj %}
                         <tr>
                             <th scope="row">{{ produto.id }}</th>
                             <td>{{ produto.nome }}</td>
@@ -51,13 +51,17 @@
                             </td>
                         </tr>
                     {% endfor %}
-                
+                    
                 </table>
             </div>
             {% else %}
-            <p class="text-center m-4">Nenhum produto cadastrado</p>
+                <p class="text-center m-4">Nenhum produto cadastrado</p>
             {% endif %}
         </div>
     </div>
+
+    {% include 'partials/_pagination.html' %}
+
+
 </div>
 {% endblock %}

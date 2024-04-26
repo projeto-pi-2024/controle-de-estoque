@@ -1,0 +1,49 @@
+<nav aria-label="Navegação de página">
+  <ul class="pagination justify-content-end">
+
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Anterior">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Anterior</span>
+        </a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link" aria-label="Anterior">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Anterior</span>
+        </span>
+      </li>
+    {% endif %}
+
+    {% for n in page_obj.paginator.page_range %}
+      {% if page_obj.number == n %}
+        <li class="page-item active">
+          <span class="page-link">{{ n }}</span>
+        </li>
+      {% elif n >= page_obj.number|add:'-1' and n <= page_obj.number|add:'1' %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ n }}">{{ n }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Próxima">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Próxima</span>
+        </a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link" aria-label="Próxima">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Próxima</span>
+        </span>
+      </li>
+    {% endif %}
+    
+  </ul>
+</nav> 

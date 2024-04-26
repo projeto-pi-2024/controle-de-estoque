@@ -17,7 +17,7 @@
     </div>
     <div class="row">
         <div class="col">
-            {%if categorias %}
+            {%if page_obj %}
             <div class="table-responsive">
                 <table class="table table-striped table-hover">
                     <thead>
@@ -30,7 +30,7 @@
                         </tr>
                     </thead>
 
-                    {% for categoria in categorias %}
+                    {% for categoria in page_obj %}
                         <tr>
                             <th>{{ categoria.id }}</th>
                             <td>{{ categoria.nome }}</td>
@@ -47,9 +47,12 @@
                 </table>
             </div>
             {% else %}
-            <p class="text-center m-4">Nenhuma categoria cadastrada</p>
+                <p class="text-center m-4">Nenhuma categoria cadastrada</p>
             {% endif %}
         </div>
     </div>
+
+    {% include 'partials/_pagination.html' %}
+
 </div>
 {% endblock %}
