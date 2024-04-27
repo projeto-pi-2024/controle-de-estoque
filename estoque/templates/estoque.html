@@ -42,11 +42,11 @@
                             <td>{{ produto.categoria.nome }}</td>
                             <td>{{ produto.quantidade_estoque }}</td>
                             <td class="p-2">
-                                <a href="{% url 'atualizar_produto' produto.id %}" class="btn btn-success btn-sm" title="Editar produto">
+                                <a href="{% url 'atualizar_produto' produto.id %}" class="btn btn-success btn-sm mb-1" title="Editar produto">
                                     <i class="fa fa-edit"></i>
                                 </a>                         
-                                <a href="{% url 'entrada_saida_estoque' produto.id %}" class="btn btn-success btn-sm" title="Movimentação estoque">
-                                    <i class="fa fa-plus"></i>
+                                <a href="{% url 'entrada_saida_estoque' produto.id %}" class="btn btn-warning btn-sm mb-1 text-white" title="Movimentação estoque">
+                                    <i class="fa fa-retweet"></i>
                                 </a>                         
                             </td>
                         </tr>
