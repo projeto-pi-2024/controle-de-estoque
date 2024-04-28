@@ -11,7 +11,8 @@ def home(request):
 
 
 def estoque(request):    
-    pesquisa = request.POST.get('pesquisa', '')
+    pesquisa = request.GET.get('q', '')  # 'q' é o campo de pesquisa no formulário
+
     produtos = Produto.objects.order_by('id')
 
     if pesquisa:
@@ -22,13 +23,13 @@ def estoque(request):
     pagina = request.GET.get('page')
     page_obj = paginacao.get_page(pagina)
 
-    context = {'page_obj': page_obj, }
-
-    if pesquisa:
-        # Adiciona a variável pesquisa em context apenas se esta estiver definida
-        context['pesquisa'] = pesquisa 
+    context = {
+        'page_obj': page_obj,
+        'pesquisa': pesquisa,
+    }
 
     return render(request, 'estoque.html', context)
+
 
 
 def categorias(request):
