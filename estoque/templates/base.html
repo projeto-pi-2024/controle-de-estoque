@@ -30,8 +30,13 @@
                         <a class="nav-link" href="#">Sobre</a>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar produto" aria-label="Pesquisar">
+                <form class="form-inline my-2 my-lg-0" id="pesquisaForm" method="POST" action="{% url 'estoque' %}"> 
+                    {% csrf_token %}
+                    <button class="btn btn-outline-secondary my-2 my-sm-0 mr-2" type="button" title="Limpar pesquisa" id="limparPesquisaBtn" style="display: none;">
+                        <i class="fa fa-eraser"></i>
+                    </button>
+                    <input id="pesquisaInput" name="pesquisa" class="form-control mr-sm-2" type="search" placeholder="Pesquisar produto" aria-label="Pesquisar"
+                        value="{% if pesquisa %}{{ pesquisa }}{% endif %}">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit" title="Pesquisar">
                         <i class="fa fa-search"></i>
                     </button>

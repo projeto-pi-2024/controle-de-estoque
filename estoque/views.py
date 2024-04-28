@@ -10,14 +10,23 @@ def home(request):
     return render(request, 'home.html')
 
 
-def estoque(request):
+def estoque(request):    
+    pesquisa = request.POST.get('pesquisa', '')
     produtos = Produto.objects.order_by('id')
-    
+
+    if pesquisa:
+        # Filtra os produtos pelo nome usando 'icontains' para pesquisa parcial
+        produtos = produtos.filter(nome__icontains=pesquisa)
+
     paginacao = Paginator(produtos, 10)
     pagina = request.GET.get('page')
     page_obj = paginacao.get_page(pagina)
 
     context = {'page_obj': page_obj, }
+
+    if pesquisa:
+        # Adiciona a variável pesquisa em context apenas se esta estiver definida
+        context['pesquisa'] = pesquisa 
 
     return render(request, 'estoque.html', context)
 
