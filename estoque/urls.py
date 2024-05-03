@@ -18,4 +18,10 @@ urlpatterns = [
     # CATEGORIA CRUD
     path('categorias/criar-categoria/', views.criar_categoria, name='criar_categoria'),
     path('categorias/atualizar-categoria/<int:categoria_id>/', views.atualizar_categoria, name='atualizar_categoria'),
+    
+    # LOGIN / LOGOUT
+    path('accounts/login/', views.login_view, name='login'),
+    path('accounts/logout/', views.logout_view, name='logout'),
+    # path('user/create/', views.register, name='register'),
+    # path('user/update/', views.user_update, name='user_update'),
 ]

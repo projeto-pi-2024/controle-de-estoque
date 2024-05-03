@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    {% include 'global/partials/_head.html' %}
+</head>
+
+{% block content %}
+  <div class="form-wrapper">
+    <h2>Login</h2>
+
+    {% if user.is_authenticated %}
+      <p>
+        You are logged in as <b>{{ user.username }}</b>.
+        Click <a href="{% url "logout" %}">here</a> to logout.
+      </p>
+    {% else %}
+      <form class="form" role="form" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+    {% endif %}
+    
+  </div>
+{% endblock content %}

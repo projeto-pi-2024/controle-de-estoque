@@ -9,14 +9,20 @@
 
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="{% url 'home' %}">(Controle de Estoque)</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            {% if user.is_authenticated %}
+                <a class="navbar-brand" href="{% url 'home' %}">
+                    Usuário: <b>{{ user.username }}</b>
+                </a>
+            {% endif %}
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Produtos
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -29,12 +35,24 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Sobre</a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Conta
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Editar</a>
+                            <a class="dropdown-item" href="{% url 'logout' %}">Sair</a>
+                        </div>
+                    </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0" id="pesquisaForm" method="GET" action="{% url 'estoque' %}"> 
-                    <button class="btn btn-outline-secondary my-2 my-sm-0 mr-2" type="button" title="Limpar pesquisa" id="limparPesquisaBtn" style="display: none;">
+                <form class="form-inline my-2 my-lg-0" id="pesquisaForm" method="GET" action="{% url 'estoque' %}">
+                    <button class="btn btn-outline-secondary my-2 my-sm-0 mr-2" type="button" title="Limpar pesquisa"
+                        id="limparPesquisaBtn" style="display: none;">
                         <i class="fa fa-eraser"></i>
                     </button>
-                    <input id="pesquisaInput" name="q" class="form-control mr-sm-2" type="search" placeholder="Pesquisar produto" aria-label="Pesquisar"
+                    <input id="pesquisaInput" name="q" class="form-control mr-sm-2" type="search"
+                        placeholder="Pesquisar produto" aria-label="Pesquisar"
                         value="{% if request.GET.q %}{{ request.GET.q }}{% endif %}">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit" title="Pesquisar">
                         <i class="fa fa-search"></i>
@@ -42,6 +60,7 @@
                 </form>
             </div>
         </nav>
+
     </header>
 
     <main>
@@ -54,6 +73,7 @@
         <p class="text-center">Grupo UNIVESP - 2024</p>
     </footer>
 
-    {% include 'global/partials/_scripts.html' %} 
+    {% include 'global/partials/_scripts.html' %}
 </body>
+
 </html>

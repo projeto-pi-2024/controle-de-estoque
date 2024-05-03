@@ -4,14 +4,20 @@ from .forms import *
 from django.db.models import Count, Sum
 from django.db.models.functions import Coalesce
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib import auth
 
 
+@login_required
 def home(request):
     return render(request, 'home.html')
 
 
-def estoque(request):    
-    pesquisa = request.GET.get('q', '')  # 'q' é o campo de pesquisa no formulário
+@login_required
+def estoque(request):
+    # 'q' é o campo de pesquisa no formulário
+    pesquisa = request.GET.get('q', '')
 
     produtos = Produto.objects.order_by('id')
 
@@ -31,13 +37,13 @@ def estoque(request):
     return render(request, 'estoque.html', context)
 
 
-
+@login_required
 def categorias(request):
     categorias = Categoria.objects.annotate(
         quantidade_produtos=Count('produto'),
         quantidade_estoque=Coalesce(Sum('produto__quantidade_estoque'), 0)
     ).order_by('id')
-    
+
     paginacao = Paginator(categorias, 10)
     pagina = request.GET.get('page')
     page_obj = paginacao.get_page(pagina)
@@ -47,6 +53,7 @@ def categorias(request):
     return render(request, 'categorias.html', context)
 
 
+@login_required
 def criar_categoria(request):
     if request.method == 'POST':
         form = CategoriaForm(request.POST)
@@ -59,6 +66,7 @@ def criar_categoria(request):
     return render(request, 'criar_categoria.html', {'form': form})
 
 
+@login_required
 def atualizar_categoria(request, categoria_id):
     categoria = get_object_or_404(Categoria, id=categoria_id)
 
@@ -74,10 +82,12 @@ def atualizar_categoria(request, categoria_id):
     return render(request, 'atualizar_categoria.html', context)
 
 
+@login_required
 def produto(request):
     return render(request, 'produto.html')
 
 
+@login_required
 def criar_produto(request):
     categorias = Categoria.objects.all()
 
@@ -112,6 +122,7 @@ def criar_produto(request):
     return render(request, 'criar_produto.html', context)
 
 
+@login_required
 def atualizar_produto(request, produto_id):
     categorias = Categoria.objects.all()
 
@@ -136,6 +147,7 @@ def atualizar_produto(request, produto_id):
     return render(request, 'atualizar_produto.html', context)
 
 
+@login_required
 def entrada_saida_estoque(request, produto_id):
     produto = Produto.objects.get(pk=produto_id)
 
@@ -172,3 +184,35 @@ def entrada_saida_estoque(request, produto_id):
     context = {'form': form, 'produto': produto}
 
     return render(request, 'entrada_saida_estoque.html', context)
+
+
+def login_view(request):
+    form = AuthenticationForm(request)
+
+    if request.method == 'POST':
+        form = AuthenticationForm(request=request, data=request.POST)
+
+        if form.is_valid():
+            user = form.get_user()
+            auth.login(request, user)
+            # messages.success(request, 'User successfully logged in')
+            return redirect('/')
+
+        # messages.error(request, 'User login unsuccessful')
+
+    context = {
+        'form': form
+    }
+
+    return render(
+        request,
+        'login.html',
+        context,
+    )
+
+
+@login_required(login_url='login')
+def logout_view(request):
+    auth.logout(request)
+
+    return redirect('login')
