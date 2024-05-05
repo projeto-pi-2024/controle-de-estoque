@@ -1,26 +1,76 @@
-{% extends 'global/base.html' %} 
+{% extends 'global/base.html' %}
 
-{% block title %}- Home {% endblock %} 
+{% block title %}- Home {% endblock %}
 
 {% block content %}
 <div class="container-md">
   <div class="row">
-    <div class="col">
-      <div class="d-flex flex-wrap home-cards">
-        <div class="card card-info">
+    <div class="col-lg-4 col-md-6 col-12 mb-4">
+      <div class="card">
+        <div class="card-header">
           <div class="card-title">Totais</div>
-          <div class="card-body">Conteúdo do Card</div>
         </div>
-        <div class="card card-info">
-          <div class="card-title">Menores Estoques</div>
-          <div class="card-body">Conteúdo do Card</div>
+        <div class="card-body">
+          <table class="table">
+            <tbody>
+              <tr>
+                <td class="text-left border-top-0">Valor</td>
+                <td class="text-right border-top-0">R$ 0,00</td>
+              </tr>
+              <tr>
+                <td class="text-left">Itens</td>
+                <td class="text-right">201</td>
+              </tr>
+              <tr>
+                <td class="text-left">Categorias</td>
+                <td class="text-right">5</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="card card-info">
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-12 mb-4">
+      <div class="card">
+        <div class="card-header">
           <div class="card-title">Últimas Movimentações</div>
-          <div class="card-body">Conteúdo do Card</div>
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="text-left border-top-0">Tipo</th>
+                <th class="text-left border-top-0">Produto</th>
+                <th class="text-right border-top-0">Qtdd</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-left">Entrada</td>
+                <td class="text-left">Brinco Cristal 22x2</td>
+                <td class="text-right">10</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-12 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Quantidades Por Categorias</div>
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <tbody>
+              <tr>
+                <td class="text-left border-top-0">Brincos</td>
+                <td class="text-right border-top-0">324</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
-</div>
-{% endblock %}
+  {% endblock %}

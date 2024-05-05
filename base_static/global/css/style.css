@@ -13,29 +13,6 @@ h6 {
     margin-bottom: 18px;
 }
 
-.home-cards {
-    background-color: rgb(222, 255, 233);
-    justify-content: space-evenly;
-}
-
-.card-info {
-    min-width: 300px;
-    border-radius: 10px;
-    height: 300px;
-    margin: 22px;
-}
-
-.card-title {
-    margin: 8px 20px;
-    font-weight: 600;
-    font-size: large;
-}
-
-.container-md {
-    margin: 22px;
-    min-height: 82vh;
-}
-
 th {
     text-wrap: wrap;
     text-transform: capitalize;
@@ -44,4 +21,17 @@ th {
 
 td {
     text-align: center;
+}
+
+.container-md {
+    margin: 22px;
+    min-height: 82vh;
+}
+
+.card-title {
+    font-weight: 600;
+}
+
+.card-body {
+    min-height: 400px;
 }
