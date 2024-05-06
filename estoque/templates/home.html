@@ -14,16 +14,20 @@
           <table class="table">
             <tbody>
               <tr>
-                <td class="text-left border-top-0">Valor</td>
-                <td class="text-right border-top-0">R$ 0,00</td>
+                <td class="text-left border-top-0">Custo</td>
+                <td class="text-right border-top-0">R$ {{ valor_total_custo_estoque }}</td>
+              </tr>
+              <tr>
+                <td class="text-left border-top-0">Venal</td>
+                <td class="text-right border-top-0">R$ {{ valor_total_venal_estoque }}</td>
               </tr>
               <tr>
                 <td class="text-left">Itens</td>
-                <td class="text-right">201</td>
+                <td class="text-right">{{ quantidade_total_estoque }}</td>
               </tr>
               <tr>
                 <td class="text-left">Categorias</td>
-                <td class="text-right">5</td>
+                <td class="text-right">{{ quantidade_categorias }}</td>
               </tr>
             </tbody>
           </table>
@@ -39,17 +43,21 @@
           <table class="table">
             <thead>
               <tr>
-                <th class="text-left border-top-0">Tipo</th>
+                <th class="border-top-0">Tipo</th>
                 <th class="text-left border-top-0">Produto</th>
-                <th class="text-right border-top-0">Qtdd</th>
+                <th class="border-top-0">Data</th>
+                <th class="border-top-0">Qtdd</th>
               </tr>
             </thead>
             <tbody>
+              {% for movimentacao in ultimas_movimentacoes %}
               <tr>
-                <td class="text-left">Entrada</td>
-                <td class="text-left">Brinco Cristal 22x2</td>
-                <td class="text-right">10</td>
+                <td>{{ movimentacao.movimentacao }}</td>
+                <td class="text-left">{{ movimentacao.produto.nome }}</td>
+                <td>{{ movimentacao.criado_em | date:"d/m/y" }}</td>
+                <td class="text-right">{{ movimentacao.quantidade }}</td>
               </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
@@ -58,15 +66,17 @@
     <div class="col-lg-4 col-md-6 col-12 mb-4">
       <div class="card">
         <div class="card-header">
-          <div class="card-title">Quantidades Por Categorias</div>
+          <div class="card-title">Produtos Por Categorias</div>
         </div>
         <div class="card-body">
           <table class="table">
             <tbody>
+              {% for categoria, quantidade in produtos_por_categorias.items %}
               <tr>
-                <td class="text-left border-top-0">Brincos</td>
-                <td class="text-right border-top-0">324</td>
+                <td class="text-left border-top-0">{{ categoria.nome }}</td>
+                <td class="text-right border-top-0">{{ quantidade }}</td>
               </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>

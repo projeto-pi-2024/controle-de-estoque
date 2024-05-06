@@ -11,7 +11,54 @@ from django.contrib import auth
 
 @login_required
 def home(request):
-    return render(request, 'home.html')
+    # CARD - Totais ---------------------------------------------------------------------------------------------------
+    produtos = Produto.objects.all()
+    valor_total_custo_estoque = 0
+    valor_total_venal_estoque = 0
+    quantidade_total_estoque = 0
+
+    # Iterar sobre todos os produtos
+    for produto in produtos:
+        # Calcular o estoque atual do produto considerando as movimentações de entrada e saída
+        movimentacoes_entrada = Estoque.objects.filter(produto=produto, movimentacao='Entrada').aggregate(total_entrada=models.Sum('quantidade'))['total_entrada'] or 0
+        movimentacoes_saida = Estoque.objects.filter(produto=produto, movimentacao='Saida').aggregate(total_saida=models.Sum('quantidade'))['total_saida'] or 0
+        estoque_atual = produto.quantidade_inicial + movimentacoes_entrada - movimentacoes_saida
+        
+        # Adicionar o custo do produto multiplicado pelo estoque atual ao valor total do estoque em custo
+        valor_total_custo_estoque += produto.custo * estoque_atual
+
+        # Adicionar o valor de venda do produto multiplicado pelo estoque atual ao valor total do estoque venal
+        valor_total_venal_estoque += produto.preco_venda * estoque_atual
+
+        # Adicionar a quantidade em estoque atual à quantidade total de itens em estoque
+        quantidade_total_estoque += estoque_atual
+        
+    # Contar a quantidade de categorias cadastradas
+    quantidade_categorias = Categoria.objects.count()
+    # -----------------------------------------------------------------------------------------------------------------
+
+    # CARD - Últimas Movimentações ------------------------------------------------------------------------------------
+    ultimas_movimentacoes = Estoque.objects.order_by('-criado_em')[:10]
+    # -----------------------------------------------------------------------------------------------------------------
+    
+    # CARD - Quantidades Por Categorias -------------------------------------------------------------------------------
+    categorias = Categoria.objects.all()
+
+    # Criar um dicionário para armazenar o nome da categoria e a quantidade de produtos relacionados
+    produtos_por_categorias = {}
+    for categoria in categorias:
+        quantidade_produtos = Produto.objects.filter(categoria=categoria).count()
+        produtos_por_categorias[categoria] = quantidade_produtos
+    # -----------------------------------------------------------------------------------------------------------------
+
+    return render(request, 'home.html', {
+        'valor_total_custo_estoque' : valor_total_custo_estoque,
+        'valor_total_venal_estoque' : valor_total_venal_estoque,
+        'quantidade_total_estoque'  : quantidade_total_estoque,
+        'quantidade_categorias'     : quantidade_categorias,
+        'ultimas_movimentacoes'     : ultimas_movimentacoes,
+        'produtos_por_categorias' : produtos_por_categorias,
+    })
 
 
 @login_required
