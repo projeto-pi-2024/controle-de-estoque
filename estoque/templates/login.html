@@ -2,25 +2,42 @@
 <html lang="pt-BR">
 
 <head>
-    {% include 'global/partials/_head.html' %}
+  {% include 'global/partials/_head.html' %}
+  <style>
+    #id_password,
+    #id_users {
+      float: right;
+    }
+
+    .form-wrapper > form > button {
+      width: 100px;
+    }
+  </style>
 </head>
 
 {% block content %}
-  <div class="form-wrapper">
+<div class="container-md d-flex justify-content-center align-items-center">
+  <div class="form-wrapper text-center border rounded p-4">
     <h2>Login</h2>
 
     {% if user.is_authenticated %}
-      <p>
-        You are logged in as <b>{{ user.username }}</b>.
-        Click <a href="{% url "logout" %}">here</a> to logout.
-      </p>
+    <p>
+      You are logged in as <b>{{ user.username }}</b>.
+      Click <a href="{% url "logout" %}">here</a> to logout.
+    </p>
     {% else %}
-      <form class="form" role="form" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Login</button>
-      </form>
+    <form class="form" role="form" method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
     {% endif %}
-    
+
   </div>
+</div>
 {% endblock content %}
+
+<footer>
+  <h5 class="text-center m-4">Controle de Estoques</h5>
+  <p class="text-center">Grupo UNIVESP - 2024</p>
+</footer>
