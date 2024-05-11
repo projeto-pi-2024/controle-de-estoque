@@ -46,12 +46,11 @@
                         <div class="form-group col-md-6">
                             <label for="categoria">Categoria:</label>
                             <select class="form-select form-control" id="categoria" name="categoria" required>
-                                <option value="{{ form.instance.categoria.id }}" selected>{{ form.instance.categoria.nome }}</option>
                                 {% for categoria in categorias %}
-                                    <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+                                    <option value="{{ categoria.id }}" {% if categoria.id == form.instance.categoria.id %} selected {% endif %}>{{ categoria.nome }}</option>
                                 {% endfor %}
                             </select>
-                        </div>
+                        </div>                        
                         <div class="form-group col-md-2">
                             <label for="situacao">Situação:</label>
                             <select class="form-select form-control" id="situacao" name="situacao" required>
