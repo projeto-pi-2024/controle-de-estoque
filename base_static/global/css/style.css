@@ -35,3 +35,9 @@ td {
 .card-height {
     min-height: 400px;
 }
+
+.error-message, .errorlist {
+    color: rgb(208, 20, 20);
+    font-size: 12px;
+    list-style: none;
+}

@@ -5,8 +5,10 @@ from django.db.models import Count, Sum
 from django.db.models.functions import Coalesce
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from django.contrib.auth.models import User
 from django.contrib import auth
+from django.contrib.auth import update_session_auth_hash
 
 
 @login_required
@@ -20,10 +22,13 @@ def home(request):
     # Iterar sobre todos os produtos
     for produto in produtos:
         # Calcular o estoque atual do produto considerando as movimentações de entrada e saída
-        movimentacoes_entrada = Estoque.objects.filter(produto=produto, movimentacao='Entrada').aggregate(total_entrada=models.Sum('quantidade'))['total_entrada'] or 0
-        movimentacoes_saida = Estoque.objects.filter(produto=produto, movimentacao='Saida').aggregate(total_saida=models.Sum('quantidade'))['total_saida'] or 0
-        estoque_atual = produto.quantidade_inicial + movimentacoes_entrada - movimentacoes_saida
-        
+        movimentacoes_entrada = Estoque.objects.filter(produto=produto, movimentacao='Entrada').aggregate(
+            total_entrada=models.Sum('quantidade'))['total_entrada'] or 0
+        movimentacoes_saida = Estoque.objects.filter(produto=produto, movimentacao='Saida').aggregate(
+            total_saida=models.Sum('quantidade'))['total_saida'] or 0
+        estoque_atual = produto.quantidade_inicial + \
+            movimentacoes_entrada - movimentacoes_saida
+
         # Adicionar o custo do produto multiplicado pelo estoque atual ao valor total do estoque em custo
         valor_total_custo_estoque += produto.custo * estoque_atual
 
@@ -32,7 +37,7 @@ def home(request):
 
         # Adicionar a quantidade em estoque atual à quantidade total de itens em estoque
         quantidade_total_estoque += estoque_atual
-        
+
     # Contar a quantidade de categorias cadastradas
     quantidade_categorias = Categoria.objects.count()
     # -----------------------------------------------------------------------------------------------------------------
@@ -40,24 +45,25 @@ def home(request):
     # CARD - Últimas Movimentações ------------------------------------------------------------------------------------
     ultimas_movimentacoes = Estoque.objects.order_by('-criado_em')[:10]
     # -----------------------------------------------------------------------------------------------------------------
-    
+
     # CARD - Quantidades Por Categorias -------------------------------------------------------------------------------
     categorias = Categoria.objects.all()
 
     # Criar um dicionário para armazenar o nome da categoria e a quantidade de produtos relacionados
     produtos_por_categorias = {}
     for categoria in categorias:
-        quantidade_produtos = Produto.objects.filter(categoria=categoria).count()
+        quantidade_produtos = Produto.objects.filter(
+            categoria=categoria).count()
         produtos_por_categorias[categoria] = quantidade_produtos
     # -----------------------------------------------------------------------------------------------------------------
 
     return render(request, 'home.html', {
-        'valor_total_custo_estoque' : valor_total_custo_estoque,
-        'valor_total_venal_estoque' : valor_total_venal_estoque,
-        'quantidade_total_estoque'  : quantidade_total_estoque,
-        'quantidade_categorias'     : quantidade_categorias,
-        'ultimas_movimentacoes'     : ultimas_movimentacoes,
-        'produtos_por_categorias' : produtos_por_categorias,
+        'valor_total_custo_estoque': valor_total_custo_estoque,
+        'valor_total_venal_estoque': valor_total_venal_estoque,
+        'quantidade_total_estoque': quantidade_total_estoque,
+        'quantidade_categorias': quantidade_categorias,
+        'ultimas_movimentacoes': ultimas_movimentacoes,
+        'produtos_por_categorias': produtos_por_categorias,
     })
 
 
@@ -242,10 +248,7 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             auth.login(request, user)
-            # messages.success(request, 'User successfully logged in')
             return redirect('/')
-
-        # messages.error(request, 'User login unsuccessful')
 
     context = {
         'form': form
@@ -263,3 +266,39 @@ def logout_view(request):
     auth.logout(request)
 
     return redirect('login')
+
+
+@login_required(login_url='login')
+def user_change_profile(request):
+    if request.method == 'POST':
+        form = UsuarioEditProfileForm(data=request.POST, instance=request.user)
+
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, request.user)
+            return render(request, 'home.html')
+        else:
+            return render(request, 'user_update_profile.html')
+
+    else:
+        form = UsuarioEditProfileForm(instance=request.user)
+        context = {'form': form}
+        return render(request, 'user_update_profile.html', context)
+
+
+@login_required(login_url='login')
+def user_change_password(request):
+    if request.method == 'POST':
+        form = UsuarioEditPasswordForm(data=request.POST, user=request.user)
+
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, request.user)
+            return render(request, 'home.html')
+        else:
+            return render(request, 'user_update_password.html', {'form': form})
+
+    else:
+        form = UsuarioEditPasswordForm(user=request.user)
+        context = {'form': form}
+        return render(request, 'user_update_password.html', context)
