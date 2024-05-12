@@ -26,8 +26,7 @@ def home(request):
             total_entrada=models.Sum('quantidade'))['total_entrada'] or 0
         movimentacoes_saida = Estoque.objects.filter(produto=produto, movimentacao='Saida').aggregate(
             total_saida=models.Sum('quantidade'))['total_saida'] or 0
-        estoque_atual = produto.quantidade_inicial + \
-            movimentacoes_entrada - movimentacoes_saida
+        estoque_atual = movimentacoes_entrada - movimentacoes_saida
 
         # Adicionar o custo do produto multiplicado pelo estoque atual ao valor total do estoque em custo
         valor_total_custo_estoque += produto.custo * estoque_atual
