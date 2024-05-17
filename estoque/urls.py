@@ -19,6 +19,7 @@ urlpatterns = [
     # CATEGORIA CRUD
     path('categorias/criar-categoria/', views.criar_categoria, name='criar_categoria'),
     path('categorias/atualizar-categoria/<int:categoria_id>/', views.atualizar_categoria, name='atualizar_categoria'),
+    path('categorias/excluir/<int:categoria_id>/', views.excluir_categoria, name='excluir_categoria'),
 
     # USUARIO
     path('accounts/login/', views.login_view, name='login'),
@@ -31,4 +32,7 @@ urlpatterns = [
     # path('accounts/reset/done/', password_reset_complete, name='password_reset_complete'),
     # path('user/create/', views.register, name='register'),
     # path('user/update/', views.user_update, name='user_update'),
+
+    # SOBRE
+    path('sobre', views.sobre, name='sobre'),
 ]

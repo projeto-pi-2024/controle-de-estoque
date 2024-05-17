@@ -1,6 +1,6 @@
-{% extends 'global/base.html' %} 
+{% extends 'global/base.html' %}
 
-{% block title %}- Categorias {% endblock %} 
+{% block title %}- Categorias {% endblock %}
 
 {% block content %}
 <div class="container-md">
@@ -21,20 +21,24 @@
                                 <label for="descricao">Nome:</label>
                                 <input type="text" class="form-control" id="nome" name="nome" value="{{ categoria.nome }}" required>
                             </div>
-                        </div>                        
+                        </div>
 
                         {% if form.errors %}
-                            <div class="alert alert-danger">
-                                {% for field in form %}
-                                    {% for error in field.errors %}
-                                        <strong>{{ field.label }}:</strong> {{ error|escape }}<br>
-                                    {% endfor %}
-                                {% endfor %}
-                            </div>
+                        <div class="alert alert-danger">
+                            {% for field in form %}
+                            {% for error in field.errors %}
+                            <strong>{{ field.label }}:</strong> {{ error|escape }}<br>
+                            {% endfor %}
+                            {% endfor %}
+                        </div>
                         {% endif %}
-                        
+
                         <div class="form-row mt-4">
                             <div class="form-group col-md-12">
+                                <button type="button" class="btn btn-danger float-left" data-toggle="modal" data-target="#exampleModal">
+                                    <i class="fa fa-trash mr-1"></i>
+                                    Excluir
+                                </button>
                                 <button type="submit" class="btn btn-primary float-right">
                                     <i class="fa fa-check mr-1"></i>
                                     Atualizar
@@ -42,10 +46,32 @@
                             </div>
                         </div>
                     </form>
-                    
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Excluir Categoria</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                A exclusão dos dados dessa categoria não poderá ser revertida. Deseja continuar com a exclusão?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                <a href="/categorias/excluir/{{ categoria.id }}" type="button" class="btn btn-warning" id="confirm-delete">Sim</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

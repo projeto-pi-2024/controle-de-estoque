@@ -9,6 +9,8 @@ from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+from django.urls import reverse
 
 
 @login_required
@@ -132,6 +134,20 @@ def atualizar_categoria(request, categoria_id):
 
     context = {'form': form, 'categoria': categoria}
     return render(request, 'atualizar_categoria.html', context)
+
+
+@login_required(login_url='login')
+def excluir_categoria(request, categoria_id):
+    categoria = get_object_or_404(Categoria, id=categoria_id)
+
+    # Verifica se existem produtos relacionados à categoria
+    if Produto.objects.filter(categoria=categoria).exists():
+        messages.error(request, 'Não é possível excluir esta categoria porque existem produtos relacionados a ela.')
+        return redirect(reverse('atualizar_categoria', args=[str(categoria.id)]))
+    else:
+        categoria.delete()
+        messages.success(request, 'Categoria excluída com sucesso.')
+        return redirect('categorias')
 
 
 @login_required
@@ -301,3 +317,6 @@ def user_change_password(request):
         form = UsuarioEditPasswordForm(user=request.user)
         context = {'form': form}
         return render(request, 'user_update_password.html', context)
+    
+def sobre(request):
+    return render(request, 'sobre.html') 
