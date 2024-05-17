@@ -113,7 +113,9 @@ def criar_categoria(request):
         form = CategoriaForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Categoria criada com sucesso.')
             return redirect('categorias')
+        messages.error(request, 'Erro ao criar categoria. Por favor, tente novamente.')
     else:
         form = CategoriaForm()
 
@@ -128,6 +130,8 @@ def atualizar_categoria(request, categoria_id):
         form = CategoriaForm(request.POST, instance=categoria)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Categoria atualizada com sucesso.')
+        messages.error(request, 'Erro ao atualizar a categoria. Por favor, tente novamente.')
         return redirect('categorias')
     else:
         form = CategoriaForm(instance=categoria)
@@ -180,8 +184,10 @@ def criar_produto(request):
 
             produto.quantidade_estoque = produto.quantidade_inicial
             produto.save()
+            messages.success(request, 'Produto criado com sucesso.')
 
             return redirect('estoque')
+        messages.error(request, 'Erro ao criar o produto. Por favor, tente novamente.')
     else:
         form = ProdutoForm()
 
@@ -206,7 +212,9 @@ def atualizar_produto(request, produto_id):
 
         if form.is_valid():
             form.save()
+            messages.success(request, 'Produto atualizado com sucesso.')
             return redirect('estoque')
+        messages.error(request, 'Erro ao atualizar o produto. Por favor, tente novamente.')
     else:
         form = ProdutoForm(instance=produto)
 
@@ -238,14 +246,16 @@ def entrada_saida_estoque(request, produto_id):
                 produto.quantidade_estoque -= quantidade
 
             produto.save()
-
+            
             Estoque.objects.create(
                 produto=produto,
                 movimentacao=movimentacao,
                 quantidade=quantidade
             )
+            messages.success(request, 'Estoque atualizado com sucesso.')
 
             return redirect('estoque')
+        messages.error(request, 'Erro ao atualizar o estoque. Por favor, tente novamente.')
     else:
         form = EstoqueForm()
 
@@ -291,8 +301,10 @@ def user_change_profile(request):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, request.user)
+            messages.success(request, 'Perfil atualizado com sucesso.')
             return render(request, 'home.html')
         else:
+            messages.error(request, 'Erro ao atualizar o perfil. Por favor, tente novamente.')
             return render(request, 'user_update_profile.html')
 
     else:
@@ -309,8 +321,10 @@ def user_change_password(request):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, request.user)
+            messages.success(request, 'Senha atualizada com sucesso.')
             return render(request, 'home.html')
         else:
+            messages.error(request, 'Erro ao atualizar a senha. Por favor, tente novamente.')
             return render(request, 'user_update_password.html', {'form': form})
 
     else:
