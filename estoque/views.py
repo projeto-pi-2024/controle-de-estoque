@@ -302,7 +302,7 @@ def user_change_profile(request):
             form.save()
             update_session_auth_hash(request, request.user)
             messages.success(request, 'Perfil atualizado com sucesso.')
-            return render(request, 'home.html')
+            return redirect('/')
         else:
             messages.error(request, 'Erro ao atualizar o perfil. Por favor, tente novamente.')
             return render(request, 'user_update_profile.html')
@@ -322,7 +322,7 @@ def user_change_password(request):
             form.save()
             update_session_auth_hash(request, request.user)
             messages.success(request, 'Senha atualizada com sucesso.')
-            return render(request, 'home.html')
+            return redirect('/')
         else:
             messages.error(request, 'Erro ao atualizar a senha. Por favor, tente novamente.')
             return render(request, 'user_update_password.html', {'form': form})
