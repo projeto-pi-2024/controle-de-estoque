@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-^lcve8kj)ul#uhtms)x%q-$=)z+=-t53pv6!m7^oxin0o(kxq&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://controle-de-estoque-univesp-c3cb958512c9.herokuapp.com/']
+ALLOWED_HOSTS = ['controle-de-estoque-univesp-c3cb958512c9.herokuapp.com/']
 
 
 # Application definition
