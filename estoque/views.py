@@ -131,7 +131,8 @@ def atualizar_categoria(request, categoria_id):
         if form.is_valid():
             form.save()
             messages.success(request, 'Categoria atualizada com sucesso.')
-        messages.error(request, 'Erro ao atualizar a categoria. Por favor, tente novamente.')
+        else:
+            messages.error(request, 'Erro ao atualizar a categoria. Por favor, tente novamente.')
         return redirect('categorias')
     else:
         form = CategoriaForm(instance=categoria)
